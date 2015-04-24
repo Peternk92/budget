@@ -1,5 +1,6 @@
 # NOTE: I've been using IDLE and Python v2.7.9
 
+#please ignore obscenities
 # Input File: data.csv
 import sys
 import csv
