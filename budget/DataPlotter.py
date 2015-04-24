@@ -9,18 +9,19 @@ import math
 import numpy as np
 import matplotlib.pyplot as plt
 import datetime
+#import dateutil.relativedelta as dateDelta
+#import dateutil.rrule as dateRule
 import matplotlib.axes as mplAxes
 import matplotlib.cbook as cbook
-#import matplotlib.cm as cm
+import matplotlib.cm as cm
 import matplotlib.collections as mplCollection
 import matplotlib.colors as mplColors
-#from matplotlib.colors import colorConverter as mplColors
 import matplotlib.dates as mplDates
 import matplotlib.ticker as ticker
 
 
         
-csvFileName = 'data_0.csv'
+csvFileName = 'data.csv'
 class DataPlotter:
 
     Months = mplDates.MonthLocator() # every month
@@ -127,7 +128,7 @@ class DataPlotter:
             rng = 12 - mo0          # 1. yr0,mo0 -> yr0,12
             for mm_ in range(rng+1):
                 monthRange.append( datetime.datetime( yr0, mo0+mm_, 1,0,0 ) )
-            if yrDif > 1:           # 2. yr0+ii,01 -> yr0+ii,12  for ii<yr1
+            if yrDif.days > 365:           # 2. yr0+ii,01 -> yr0+ii,12  for ii<yr1
                 for yr_ in range( yrDif-1 ):
                     for mm_ in range(12):
                         tmp = datetime.datetime( yr_, mm_+1, 1,0,0 )
@@ -417,9 +418,9 @@ class DataPlotter:
             # multiple years
         else:
             if   self.xType=='DAY':     strFmt = '%Y-%m-%d';    self.ax.set_xlabel( 'Dates (%(aa)d-%(bb)d)'
-                                                                                    %{'aa':plotYear[0],'bb':plotYear[1]} )
+                                                                                    %{'aa':plotYear[0].year,'bb':plotYear[1].year} )
             elif self.xType=='MONTH':   strFmt = '%b %Y';       self.ax.set_xlabel( 'Months (%(aa)d-%(bb)d)'
-                                                                                    %{'aa':plotYear[0],'bb':plotYear[1]} )
+                                                                                    %{'aa':plotYear[0].year,'bb':plotYear[1].year} )
             elif self.xType=='YEAR':    strFmt = '%Y';          self.ax.set_xlabel( 'Years' )
             
             else:
@@ -472,5 +473,4 @@ class DataPlotter:
 
 if __name__ == "__main__":
     stuff = DataPlotter()
-    stuff.Plot_Fig( 'YEAR','SUM' )  # Plot_Fig( ['DAY'|'MONTH'|'YEAR'], ['SUM'|'AVERAGE'] )
-    stuff.Plot_Fig(
+    stuff.Plot_Fig( 'YEAR','AVERAGE' )  # Plot_Fig( ['DAY'|'MONTH'|'YEAR'], ['SUM'|'AVERAGE'] )
